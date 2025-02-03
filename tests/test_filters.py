@@ -51,3 +51,25 @@ def test_filters_update(value, filters_dict, expected_result):
     filters = Filters()
     filters.update(filters_dict)
     assert filters.apply(value) == expected_result
+
+@pytest.mark.parametrize(
+    'value, filters_dict, expected_result',
+    [
+        (
+            1,
+            {
+                'a': Filter(lambda x: x == 1), 
+                'b': Filter(lambda x: isinstance(x, int)),
+                'c': Filter(lambda x: isinstance(x, str)),
+            },
+            {
+                ('a', 'b'): True,
+                ('b', 'c'): False,
+            },
+        ),
+    ],
+)
+def test_filters_select(value, filters_dict, expected_result):
+    filters = Filters(**filters_dict)
+    for filter_names, filters_expected_result in expected_result.items():
+        assert filters.apply(value, filter_names=filter_names) == filters_expected_result

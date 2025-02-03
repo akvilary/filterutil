@@ -59,3 +59,27 @@ def test_filters_as_xor(value, filters_dict, expected_result):
         **filters_dict,
     )
     assert filters.apply(value) == expected_result
+
+
+@pytest.mark.parametrize(
+    'value, filters_dict, expected_result',
+    [
+        (
+            1,
+            {
+                'a': Filter(lambda x: x == 2), 
+                'b': Filter(lambda x: isinstance(x, int)),
+                'c': Filter(lambda x: isinstance(x, str)),
+            },
+            {
+                ('a', 'c'): True,
+                ('a', 'b'): False,
+                ('b', 'c'): False,
+            },
+        ),
+    ],
+)
+def test_xor_filters_select(value, filters_dict, expected_result):
+    filters = XorFilters(**filters_dict)
+    for filter_names, filters_expected_result in expected_result.items():
+        assert filters.apply(value, filter_names=filter_names) == filters_expected_result

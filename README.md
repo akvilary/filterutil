@@ -137,6 +137,29 @@ def test_func():
     assert xor_filters.apply(False)
 ```
 
+### It is possible to select certain filters of collection
+```python
+from filterutil import Filter, Filters, OrFilters, XorFilters, FilterCouplingPolicy
+
+
+def test_func():
+    and_filters = Filters(
+        a=Filter(lambda x: x == 1), 
+        b=Filter(lambda x: isinstance(x, int)),
+        c=Filter(lambda x: isinstance(x, str)),
+    )
+    assert and_filters.apply(1, filter_names=['a', 'b'])
+    assert not and_filters.apply(1, filter_names=['b', 'c'])
+
+    or_filters = OrFilters(
+        a=Filter(lambda x: x == 2), 
+        b=Filter(lambda x: isinstance(x, int)),
+        c=Filter(lambda x: isinstance(x, str)),
+    )
+    assert and_filters.apply(1, filter_names=['a', 'b'])
+    assert not and_filters.apply(1, filter_names=['a', 'c'])
+```
+
 ### Infinite nesting of collections
 ```python
 from filterutil import Filter, Filters, OrFilters, XorFilters, FilterCouplingPolicy

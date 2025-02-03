@@ -4,7 +4,7 @@ Module of collection of filters
 """
 
 from collections import UserDict
-from typing import Any, List, Optional
+from typing import Any, Optional, Iterable
 
 from .applying import apply_filters
 from .filter_coupling_policy import FilterCouplingPolicy
@@ -30,7 +30,7 @@ class Filters(UserDict):
     def apply(
         self,
         value: Any,
-        filter_names: Optional[List[str]] = None,
+        filter_names: Optional[Iterable[str]] = None,
         coupling_policy: Optional[FilterCouplingPolicy] = None,
     ) -> bool:
         """
@@ -55,7 +55,7 @@ class Filters(UserDict):
     def apply_and(
         self,
         value: Any,
-        filter_names: Optional[List[str]] = None,
+        filter_names: Optional[Iterable[str]] = None,
     ) -> bool:
         """
         Apply all or certain registered filters with "AND" logic
@@ -65,7 +65,7 @@ class Filters(UserDict):
     def apply_or(
         self,
         value: Any,
-        filter_names: Optional[List[str]] = None,
+        filter_names: Optional[Iterable[str]] = None,
     ) -> bool:
         """
         Apply all or certain registered filters with "OR" logic
@@ -75,7 +75,7 @@ class Filters(UserDict):
     def apply_xor(
         self,
         value: Any,
-        filter_names: Optional[List[str]] = None,
+        filter_names: Optional[Iterable[str]] = None,
     ) -> bool:
         """
         Apply all or certain registered filters with "XOR" logic

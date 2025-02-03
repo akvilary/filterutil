@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "filterutil"
-version = "0.0.7"
+version = "1.0.0"
 authors = [
   { name="Andrey Smirnov", email="smirnovcode@mail.ru" },
 ]

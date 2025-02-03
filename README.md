@@ -82,12 +82,14 @@ from filterutil import Filter
 
 
 def test_func():
-    a = Filter(lambda x: x == 1)
-    b = Filter(lambda x: x == 3)
+    a = Filter(lambda x: x == 2)
+    b = Filter(lambda x: isintance(x, int))
     compound_filter = a ^ b
 
     # assert True
-    assert compound_filter.apply(2)
+    assert compound_filter.apply(1)
+    # assert False
+    assert not compound_filter.apply(2)
 ```
 
 ### Infinite nesting
@@ -155,7 +157,7 @@ def test_func():
     xor_filters = Filters(FilterCouplingPolicy.XOR)
     # ---
 
-    xor_filters['a'] = Filter(lambda x: isinstance(x, int))
+    xor_filters['a'] = Filter(lambda x: isinstance(x, bool))
     xor_filters['b'] = Filter(lambda x: isinstance(x, str))
 
     # assert True
@@ -206,8 +208,8 @@ def test_func():
         b=Filter(lambda x: isinstance(x, int)),
     )
     assert or_filters.apply(2)
+    assert or_filters.apply_xor(2)
     assert not or_filters.apply_and(2)
-    assert not or_filters.apply_xor(2)
 ```
 
 ### Infinite nesting of collections
@@ -224,7 +226,7 @@ def test_func():
     xor_filters = Filters(
         FilterCouplingPolicy.XOR,
         a=Filter(lambda x: x == 1),
-        b=Filter(lambda x: x == 3),
+        b=Filter(lambda x: isintance(x, int)),
     )
 
     two_collections_in_one = OrFilters(

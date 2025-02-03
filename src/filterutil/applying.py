@@ -3,6 +3,7 @@
 Module of applying filters
 """
 
+from functools import reduce
 from typing import Any, Iterable
 
 from .filter_coupling_policy import FilterCouplingPolicy
@@ -59,9 +60,14 @@ def apply_filters_with_xor_policy(
     filters: Iterable['Filter | CompoundFilter | Filters'],
 ):
     """
-    Apply with "OR" logic
+    Apply with "XOR" logic
     """
-    for _filter in filters or []:
-        if _filter.apply(value):
-            return False
-    return True
+    if not filters:
+        return True
+
+    iterator = iter(filters)
+    return reduce(
+        lambda result, _filter: result ^ _filter.apply(value),
+        iterator,
+        next(iterator).apply(value),
+    )

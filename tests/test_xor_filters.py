@@ -10,8 +10,45 @@ def test_xor_filters_init():
 @pytest.mark.parametrize(
     'value, filters_dict, expected_result',
     [
-        (1, {'a': Filter(lambda x: x == 2), 'b': Filter(lambda x: isinstance(x, str))}, True),
-        (1, {'a': Filter(lambda x: x == 2), 'b': Filter(lambda x: isinstance(x, int))}, False),
+        (
+            1,
+            {
+                'a': Filter(lambda x: x == 1),
+            },
+            True,
+        ),
+        (
+            1,
+            {
+                'a': Filter(lambda x: x == 2),
+            },
+            False,
+        ),
+        (
+            1,
+            {
+                'a': Filter(lambda x: x == 1),
+                'b': Filter(lambda x: isinstance(x, str)),
+            },
+            True,
+        ),
+        (
+            1,
+            {
+                'a': Filter(lambda x: x == 1),
+                'b': Filter(lambda x: isinstance(x, int)),
+            },
+            False,
+        ),
+        (
+            1,
+            {
+                'a': Filter(lambda x: x == 1),
+                'b': Filter(lambda x: isinstance(x, str)),
+                'c': Filter(lambda x: isinstance(x, int)),
+            },
+            False,
+        ),
     ],
 )
 def test_xor_filters_filtering(value, filters_dict, expected_result):
@@ -22,8 +59,22 @@ def test_xor_filters_filtering(value, filters_dict, expected_result):
 @pytest.mark.parametrize(
     'value, filters_dict, expected_result',
     [
-        (1, {'a': Filter(lambda x: x == 2), 'b': Filter(lambda x: isinstance(x, str))}, True),
-        (1, {'a': Filter(lambda x: x == 2), 'b': Filter(lambda x: isinstance(x, int))}, False),
+        (
+            1,
+            {
+                'a': Filter(lambda x: x == 1),
+                'b': Filter(lambda x: isinstance(x, str)),
+            },
+            True,
+        ),
+        (
+            1,
+            {
+                'a': Filter(lambda x: x == 1),
+                'b': Filter(lambda x: isinstance(x, int)),
+            },
+            False,
+        ),
     ],
 )
 def test_xor_filters_setitem(value, filters_dict, expected_result):
@@ -36,8 +87,22 @@ def test_xor_filters_setitem(value, filters_dict, expected_result):
 @pytest.mark.parametrize(
     'value, filters_dict, expected_result',
     [
-        (1, {'a': Filter(lambda x: x == 2), 'b': Filter(lambda x: isinstance(x, str))}, True),
-        (1, {'a': Filter(lambda x: x == 2), 'b': Filter(lambda x: isinstance(x, int))}, False),
+        (
+            1,
+            {
+                'a': Filter(lambda x: x == 1),
+                'b': Filter(lambda x: isinstance(x, str)),
+            },
+            True,
+        ),
+        (
+            1,
+            {
+                'a': Filter(lambda x: x == 1),
+                'b': Filter(lambda x: isinstance(x, int)),
+            },
+            False,
+        ),
     ],
 )
 def test_xor_filters_update(value, filters_dict, expected_result):
@@ -49,8 +114,22 @@ def test_xor_filters_update(value, filters_dict, expected_result):
 @pytest.mark.parametrize(
     'value, filters_dict, expected_result',
     [
-        (1, {'a': Filter(lambda x: x == 2), 'b': Filter(lambda x: isinstance(x, str))}, True),
-        (1, {'a': Filter(lambda x: x == 2), 'b': Filter(lambda x: isinstance(x, int))}, False),
+        (
+            1,
+            {
+                'a': Filter(lambda x: x == 1),
+                'b': Filter(lambda x: isinstance(x, str)),
+            },
+            True,
+        ),
+        (
+            1,
+            {
+                'a': Filter(lambda x: x == 1),
+                'b': Filter(lambda x: isinstance(x, int)),
+            },
+            False,
+        ),
     ],
 )
 def test_filters_as_xor(value, filters_dict, expected_result):
@@ -67,14 +146,14 @@ def test_filters_as_xor(value, filters_dict, expected_result):
         (
             1,
             {
-                'a': Filter(lambda x: x == 2), 
+                'a': Filter(lambda x: x == 1),
                 'b': Filter(lambda x: isinstance(x, int)),
                 'c': Filter(lambda x: isinstance(x, str)),
             },
             {
                 ('a', 'c'): True,
                 ('a', 'b'): False,
-                ('b', 'c'): False,
+                ('b', 'c'): True,
             },
         ),
     ],

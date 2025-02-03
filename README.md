@@ -25,21 +25,23 @@ from typing import Set
 from filterutil import Filter
 
 
-def filtering_func(tags: Set[str], tag: str):
-    return tag in tags
+def filtering_func(value: int, y: int):
+    return value == y
 
 
 def test_func():
-    my_filter = Filter(filtering_func, 'c')
-    # or
-    my_filter = Filter(filtering_func, tag='c')
-    tags = {'a', 'b'}
-    # assert False
-    assert not my_filter.apply(tags):
+    # saved args works
+    my_filter = Filter(filtering_func, 1)
+    # but we recommend to use kwargs
+    my_filter = Filter(filtering_func, y=1)
 
-    tags = {'a', 'c'}
+    # assert False
+    assert not my_filter.apply(2):
+    # .apply under the hood works as
+    assert not filtering_func(2, y=1)
+
     # assert True
-    assert my_filter.apply(tags):
+    assert my_filter.apply(1):
 ```
 
 ### Coupling filters with AND policy

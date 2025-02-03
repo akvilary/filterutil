@@ -144,20 +144,45 @@ from filterutil import Filter, Filters, OrFilters
 
 def test_func():
     and_filters = Filters(
-        a=Filter(lambda x: x == 1), 
-        b=Filter(lambda x: isinstance(x, int)),
-        c=Filter(lambda x: isinstance(x, str)),
-    )
-    assert and_filters.apply(1, filter_names=['a', 'b'])
-    assert not and_filters.apply(1, filter_names=['b', 'c'])
-
-    or_filters = OrFilters(
         a=Filter(lambda x: x == 2), 
         b=Filter(lambda x: isinstance(x, int)),
         c=Filter(lambda x: isinstance(x, str)),
     )
-    assert and_filters.apply(1, filter_names=['a', 'b'])
-    assert not and_filters.apply(1, filter_names=['a', 'c'])
+    assert and_filters.apply(2, filter_names=['a', 'b'])
+    assert not and_filters.apply(2, filter_names=['b', 'c'])
+
+    or_filters = OrFilters(
+        a=Filter(lambda x: x == 1), 
+        b=Filter(lambda x: isinstance(x, int)),
+        c=Filter(lambda x: isinstance(x, str)),
+    )
+    assert or_filters.apply(2, filter_names=['a', 'b'])
+    assert not or_filters.apply(2, filter_names=['a', 'c'])
+```
+
+### Apply another coupling policy for the collection dinamically
+```python
+from filterutil import Filter, Filters, OrFilters, FilterCouplingPolicy
+
+
+def test_func():
+    and_filters = Filters(
+        a=Filter(lambda x: x == 1), 
+        b=Filter(lambda x: isinstance(x, int)),
+    )
+    assert not and_filters.apply(2)
+    assert and_filters.apply_or(2)
+    # or
+    assert and_filters.apply(2, coupling_policy=FilterCouplingPolicy.OR)
+
+
+    or_filters = OrFilters(
+        a=Filter(lambda x: x == 1), 
+        b=Filter(lambda x: isinstance(x, int)),
+    )
+    assert or_filters.apply(2)
+    assert not or_filters.apply_and(2)
+    assert not or_filters.apply_xor(2)
 ```
 
 ### Infinite nesting of collections

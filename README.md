@@ -19,6 +19,30 @@ def test_func():
     assert not my_filter.apply(2):
 ```
 
+### Filter with saved args and kwargs
+```python
+from typing import Set
+from filterutil import Filter
+
+def filtering_func(tags: Set[str], tag: str):
+    if key in value:
+        return True
+    return False
+
+
+def test_func():
+    my_filter = Filter(filtering_func, 'c')
+    # or
+    my_filter = Filter(filtering_func, tag='c')
+    tags = {'a', 'b'}
+    # assert False
+    assert not my_filter.apply(tags):
+
+    tags = {'a', 'c'}
+    # assert True
+    assert my_filter.apply(tags):
+```
+
 ### Coupling filters with AND policy
 ```python
 from filterutil import Filter

@@ -24,10 +24,9 @@ def test_func():
 from typing import Set
 from filterutil import Filter
 
+
 def filtering_func(tags: Set[str], tag: str):
-    if key in value:
-        return True
-    return False
+    return tag in tags
 
 
 def test_func():

@@ -139,7 +139,7 @@ def test_func():
 
 ### It is possible to select certain filters of collection
 ```python
-from filterutil import Filter, Filters, OrFilters, XorFilters, FilterCouplingPolicy
+from filterutil import Filter, Filters, OrFilters
 
 
 def test_func():

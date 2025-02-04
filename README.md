@@ -45,6 +45,7 @@ def test_func():
 ```
 
 ### Coupling filters with AND logic gate
+True only if all inputs are True.
 ```python
 from filterutil import Filter
 
@@ -62,6 +63,7 @@ def test_func():
 ```
 
 ### Coupling filters with OR logic gate
+True if at least one input is True.
 ```python
 from filterutil import Filter
 

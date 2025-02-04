@@ -293,7 +293,7 @@ def test_func():
 
 ### Infinite nesting of collections
 ```python
-from filterutil import Filter, Filters, OrFilters, XorFilters, LogicGate
+from filterutil import Filter, Filters, OrFilters, LogicGate
 
 
 def test_func():

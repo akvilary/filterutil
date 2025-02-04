@@ -1,5 +1,5 @@
 import pytest
-from filterutil import Filter, Filters, XnorFilters, FilterCouplingPolicy
+from filterutil import Filter, Filters, XnorFilters, LogicGate
 
 
 def test_xnor_filters_init():
@@ -235,7 +235,7 @@ def test_xnor_filters_update(value, filters_dict, expected_result):
 )
 def test_filters_as_xnor(value, filters_dict, expected_result):
     filters = Filters(
-        FilterCouplingPolicy.XNOR,
+        LogicGate.XNOR,
         **filters_dict,
     )
     assert filters.apply(value) == expected_result

@@ -4,26 +4,26 @@ Module of collection of XOR filters
 """
 
 
-from .filter_coupling_policy import FilterCouplingPolicy
+from .logic_gate import LogicGate
 from .filters import Filters
 
 
 class XorFilters(Filters):
     """
-    Filters collection with XOR default coupling policy
+    Filters collection with default XOR logic gate
     """
     def __init__(
         self,
-        default_coupling_policy: FilterCouplingPolicy = FilterCouplingPolicy.XOR,
+        default_logic_gate: LogicGate = LogicGate.XOR,
         /,
         **kwargs,
     ):
         Filters.__init__(
             self,
             (
-                FilterCouplingPolicy.XOR
-                if default_coupling_policy is None
-                else default_coupling_policy
+                LogicGate.XOR
+                if default_logic_gate is None
+                else default_logic_gate
             ),
             **kwargs,
         )

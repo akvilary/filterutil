@@ -1,5 +1,5 @@
 import pytest
-from filterutil import Filter, Filters, XorFilters, FilterCouplingPolicy
+from filterutil import Filter, Filters, XorFilters, LogicGate
 
 
 def test_xor_filters_init():
@@ -134,7 +134,7 @@ def test_xor_filters_update(value, filters_dict, expected_result):
 )
 def test_filters_as_xor(value, filters_dict, expected_result):
     filters = Filters(
-        FilterCouplingPolicy.XOR,
+        LogicGate.XOR,
         **filters_dict,
     )
     assert filters.apply(value) == expected_result

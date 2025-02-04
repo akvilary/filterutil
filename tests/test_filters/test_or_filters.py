@@ -1,5 +1,5 @@
 import pytest
-from filterutil import Filter, Filters, OrFilters, FilterCouplingPolicy
+from filterutil import Filter, Filters, OrFilters, LogicGate
 
 
 def test_or_filters_init():
@@ -55,7 +55,7 @@ def test_or_filters_update(value, filters_dict, expected_result):
 )
 def test_filters_as_or(value, filters_dict, expected_result):
     filters = Filters(
-        FilterCouplingPolicy.OR,
+        LogicGate.OR,
         **filters_dict,
     )
     assert filters.apply(value) == expected_result

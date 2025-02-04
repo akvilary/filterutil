@@ -4,26 +4,26 @@ Module of collection of OR filters
 """
 
 
-from .filter_coupling_policy import FilterCouplingPolicy
+from .logic_gate import LogicGate
 from .filters import Filters
 
 
 class OrFilters(Filters):
     """
-    Filters collection with OR default coupling policy
+    Filters collection with default OR logic gate
     """
     def __init__(
         self,
-        default_coupling_policy: FilterCouplingPolicy = FilterCouplingPolicy.OR,
+        default_logic_gate: LogicGate = LogicGate.OR,
         /,
         **kwargs,
     ):
         Filters.__init__(
             self,
             (
-                FilterCouplingPolicy.OR
-                if default_coupling_policy is None
-                else default_coupling_policy
+                LogicGate.OR
+                if default_logic_gate is None
+                else default_logic_gate
             ),
             **kwargs,
         )

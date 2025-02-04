@@ -4,26 +4,26 @@ Module of collection of XNOR filters
 """
 
 
-from .filter_coupling_policy import FilterCouplingPolicy
+from .logic_gate import LogicGate
 from .filters import Filters
 
 
 class XnorFilters(Filters):
     """
-    Filters collection with XNOR default coupling policy
+    Filters collection with default XNOR logic gate
     """
     def __init__(
         self,
-        default_coupling_policy: FilterCouplingPolicy = FilterCouplingPolicy.XNOR,
+        default_logic_gate: LogicGate = LogicGate.XNOR,
         /,
         **kwargs,
     ):
         Filters.__init__(
             self,
             (
-                FilterCouplingPolicy.XNOR
-                if default_coupling_policy is None
-                else default_coupling_policy
+                LogicGate.XNOR
+                if default_logic_gate is None
+                else default_logic_gate
             ),
             **kwargs,
         )

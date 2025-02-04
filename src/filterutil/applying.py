@@ -6,10 +6,10 @@ Module of applying filters
 from functools import reduce
 from typing import Any, Iterable
 
-from .filter_coupling_policy import FilterCouplingPolicy
+from .logic_gate import LogicGate
 
 
-def apply_filters_with_and_policy(
+def apply_filters_and(
     value: Any,
     filters: Iterable['Filter | CompoundFilter | Filters'],
 ):
@@ -22,7 +22,7 @@ def apply_filters_with_and_policy(
     return True
 
 
-def apply_filters_with_or_policy(
+def apply_filters_or(
     value: Any,
     filters: Iterable['Filter | CompoundFilter | Filters'],
 ):
@@ -37,7 +37,7 @@ def apply_filters_with_or_policy(
     return False
 
 
-def apply_filters_with_xor_policy(
+def apply_filters_xor(
     value: Any,
     filters: Iterable['Filter | CompoundFilter | Filters'],
 ):
@@ -55,7 +55,7 @@ def apply_filters_with_xor_policy(
     )
 
 
-def apply_filters_with_xnor_policy(
+def apply_filters_xnor(
     value: Any,
     filters: Iterable['Filter | CompoundFilter | Filters'],
 ):
@@ -73,7 +73,7 @@ def apply_filters_with_xnor_policy(
     )
 
 
-def apply_filters_with_nand_policy(
+def apply_filters_nand(
     value: Any,
     filters: Iterable['Filter | CompoundFilter | Filters'],
 ):
@@ -86,7 +86,7 @@ def apply_filters_with_nand_policy(
     return not all(_filter.apply(value) for _filter in filters)
 
 
-def apply_filters_with_nor_policy(
+def apply_filters_nor(
     value: Any,
     filters: Iterable['Filter | CompoundFilter | Filters'],
 ):
@@ -99,26 +99,26 @@ def apply_filters_with_nor_policy(
     return not any(_filter.apply(value) for _filter in filters)
 
 
-APPLY_FUNC_BY_POLICY = {
-    FilterCouplingPolicy.AND: apply_filters_with_and_policy,
-    FilterCouplingPolicy.OR: apply_filters_with_or_policy,
-    FilterCouplingPolicy.XOR: apply_filters_with_xor_policy,
-    FilterCouplingPolicy.XNOR: apply_filters_with_xnor_policy,
-    FilterCouplingPolicy.NAND: apply_filters_with_nand_policy,
-    FilterCouplingPolicy.NOR: apply_filters_with_nor_policy,
+APPLY_FUNC_BY_LOGIC_GATE = {
+    LogicGate.AND: apply_filters_and,
+    LogicGate.OR: apply_filters_or,
+    LogicGate.XOR: apply_filters_xor,
+    LogicGate.XNOR: apply_filters_xnor,
+    LogicGate.NAND: apply_filters_nand,
+    LogicGate.NOR: apply_filters_nor,
 }
 
 
 def apply_filters(
     value: Any,
     filters: Iterable['Filter | CompoundFilter | Filters'],
-    coupling_policy: FilterCouplingPolicy = FilterCouplingPolicy.AND,
+    logic_gate: LogicGate = LogicGate.AND,
 ) -> bool:
     """
     Apply filters to value
     """
-    coupling_policy = coupling_policy or FilterCouplingPolicy.AND
-    apply_func = APPLY_FUNC_BY_POLICY.get(coupling_policy)
+    logic_gate = logic_gate or LogicGate.AND
+    apply_func = APPLY_FUNC_BY_LOGIC_GATE.get(logic_gate)
     if apply_func is not None:
         return apply_func(value, filters)
-    raise NotImplementedError(f'FilterCouplingPolicy ({coupling_policy}) is not supported')
+    raise NotImplementedError(f'Logic gate ({logic_gate}) is not supported')

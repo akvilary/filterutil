@@ -1,11 +1,11 @@
-from .filter_coupling_policy import FilterCouplingPolicy
+from .logic_gate import LogicGate
 from .applying import (
     apply_filters,
-    apply_filters_with_and_policy,
-    apply_filters_with_or_policy,
-    apply_filters_with_xor_policy,
-    apply_filters_with_nand_policy,
-    apply_filters_with_nor_policy,
+    apply_filters_and,
+    apply_filters_or,
+    apply_filters_xor,
+    apply_filters_nand,
+    apply_filters_nor,
 )
 from .compound_filter import CompoundFilter
 from .simple_filter import Filter

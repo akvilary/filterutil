@@ -1,17 +1,17 @@
 import pytest
-from filterutil import Filter, Filters, FilterCouplingPolicy
+from filterutil import Filter, Filters, LogicGate
 
 
 def test_filters_init():
     filters = Filters()
     assert isinstance(filters, Filters)
-    assert filters.default_coupling_policy == FilterCouplingPolicy.AND
+    assert filters.default_logic_gate == LogicGate.AND
 
 
 def test_filters_init_with_none():
     filters = Filters(None)
     assert isinstance(filters, Filters)
-    assert filters.default_coupling_policy == FilterCouplingPolicy.AND
+    assert filters.default_logic_gate == LogicGate.AND
 
 
 @pytest.mark.parametrize(

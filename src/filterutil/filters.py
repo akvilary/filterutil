@@ -7,31 +7,31 @@ from collections import UserDict
 from typing import Any, Optional, Iterable
 
 from .applying import apply_filters
-from .filter_coupling_policy import FilterCouplingPolicy
+from .logic_gate import LogicGate
 
 
 class Filters(UserDict):
     """
-    Filters collection with AND default coupling policy
+    Filters collection with default AND logic gate
     """
     def __init__(
         self,
-        default_coupling_policy: FilterCouplingPolicy = FilterCouplingPolicy.AND,
+        default_logic_gate: LogicGate = LogicGate.AND,
         /,
         **kwargs,
     ):
         UserDict.__init__(self, **kwargs)
-        self.default_coupling_policy = (
-            FilterCouplingPolicy.AND
-            if default_coupling_policy is None
-            else default_coupling_policy
+        self.default_logic_gate = (
+            LogicGate.AND
+            if default_logic_gate is None
+            else default_logic_gate
         )
 
     def apply(
         self,
         value: Any,
         filter_names: Optional[Iterable[str]] = None,
-        coupling_policy: Optional[FilterCouplingPolicy] = None,
+        logic_gate: Optional[LogicGate] = None,
     ) -> bool:
         """
         Apply all or certain registered filters
@@ -45,10 +45,10 @@ class Filters(UserDict):
                 for filter_name in filter_names
                 if filter_name in self
             ],
-            coupling_policy=(
-                self.default_coupling_policy
-                if coupling_policy is None
-                else coupling_policy
+            logic_gate=(
+                self.default_logic_gate
+                if logic_gate is None
+                else logic_gate
             ),
         )
 
@@ -60,7 +60,7 @@ class Filters(UserDict):
         """
         Apply all or certain registered filters with "AND" logic
         """
-        return self.apply(value, filter_names, coupling_policy=FilterCouplingPolicy.AND)
+        return self.apply(value, filter_names, logic_gate=LogicGate.AND)
 
     def apply_or(
         self,
@@ -70,7 +70,7 @@ class Filters(UserDict):
         """
         Apply all or certain registered filters with "OR" logic
         """
-        return self.apply(value, filter_names, coupling_policy=FilterCouplingPolicy.OR)
+        return self.apply(value, filter_names, logic_gate=LogicGate.OR)
 
     def apply_xor(
         self,
@@ -80,4 +80,34 @@ class Filters(UserDict):
         """
         Apply all or certain registered filters with "XOR" logic
         """
-        return self.apply(value, filter_names, coupling_policy=FilterCouplingPolicy.XOR)
+        return self.apply(value, filter_names, logic_gate=LogicGate.XOR)
+
+    def apply_xnor(
+        self,
+        value: Any,
+        filter_names: Optional[Iterable[str]] = None,
+    ) -> bool:
+        """
+        Apply all or certain registered filters with "XNOR" logic
+        """
+        return self.apply(value, filter_names, logic_gate=LogicGate.XNOR)
+
+    def apply_nand(
+        self,
+        value: Any,
+        filter_names: Optional[Iterable[str]] = None,
+    ) -> bool:
+        """
+        Apply all or certain registered filters with "NAND" logic
+        """
+        return self.apply(value, filter_names, logic_gate=LogicGate.NAND)
+
+    def apply_nor(
+        self,
+        value: Any,
+        filter_names: Optional[Iterable[str]] = None,
+    ) -> bool:
+        """
+        Apply all or certain registered filters with "NOR" logic
+        """
+        return self.apply(value, filter_names, logic_gate=LogicGate.NOR)

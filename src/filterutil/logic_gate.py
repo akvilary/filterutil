@@ -1,14 +1,14 @@
 # coding=utf-8
 """
-FilterCouplingPolicy
+Enum of logic gate
 """
 
 from enum import StrEnum
 
 
-class FilterCouplingPolicy(StrEnum):
+class LogicGate(StrEnum):
     """
-    Policy of coupling
+    Enum of logic gate
     """
     AND = 'and'
     OR = 'or'

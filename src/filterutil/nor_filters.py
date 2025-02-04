@@ -4,26 +4,26 @@ Module of collection of NOR filters
 """
 
 
-from .filter_coupling_policy import FilterCouplingPolicy
+from .logic_gate import LogicGate
 from .filters import Filters
 
 
 class NorFilters(Filters):
     """
-    Filters collection with NOR default coupling policy
+    Filters collection with default NOR logic gate
     """
     def __init__(
         self,
-        default_coupling_policy: FilterCouplingPolicy = FilterCouplingPolicy.NOR,
+        default_logic_gate: LogicGate = LogicGate.NOR,
         /,
         **kwargs,
     ):
         Filters.__init__(
             self,
             (
-                FilterCouplingPolicy.NOR
-                if default_coupling_policy is None
-                else default_coupling_policy
+                LogicGate.NOR
+                if default_logic_gate is None
+                else default_logic_gate
             ),
             **kwargs,
         )

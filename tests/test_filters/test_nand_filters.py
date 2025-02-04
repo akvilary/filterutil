@@ -1,5 +1,5 @@
 import pytest
-from filterutil import Filter, Filters, NandFilters, FilterCouplingPolicy
+from filterutil import Filter, Filters, NandFilters, LogicGate
 
 
 def test_nand_filters_init():
@@ -235,7 +235,7 @@ def test_nand_filters_update(value, filters_dict, expected_result):
 )
 def test_filters_as_nand(value, filters_dict, expected_result):
     filters = Filters(
-        FilterCouplingPolicy.NAND,
+        LogicGate.NAND,
         **filters_dict,
     )
     assert filters.apply(value) == expected_result

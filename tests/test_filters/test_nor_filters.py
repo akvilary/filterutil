@@ -1,5 +1,5 @@
 import pytest
-from filterutil import Filter, Filters, NorFilters, FilterCouplingPolicy
+from filterutil import Filter, Filters, NorFilters, LogicGate
 
 
 def test_nor_filters_init():
@@ -235,7 +235,7 @@ def test_nor_filters_update(value, filters_dict, expected_result):
 )
 def test_filters_as_nor(value, filters_dict, expected_result):
     filters = Filters(
-        FilterCouplingPolicy.NOR,
+        LogicGate.NOR,
         **filters_dict,
     )
     assert filters.apply(value) == expected_result

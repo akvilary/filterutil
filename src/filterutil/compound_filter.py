@@ -7,7 +7,7 @@ from collections import UserList
 from typing import Any, List
 
 from .applying import apply_filters
-from .filter_coupling_policy import FilterCouplingPolicy
+from .logic_gate import LogicGate
 
 
 class Compounder:
@@ -16,40 +16,40 @@ class Compounder:
     """
 
     def __and__(self, other) -> 'CompoundFilter':
-        return CompoundFilter([self, other], coupling_policy=FilterCouplingPolicy.AND)
+        return CompoundFilter([self, other], logic_gate=LogicGate.AND)
 
     def __rand__(self, other) -> 'CompoundFilter':
-        return CompoundFilter([other, self], coupling_policy=FilterCouplingPolicy.AND)
+        return CompoundFilter([other, self], logic_gate=LogicGate.AND)
 
     def __or__(self, other) -> 'CompoundFilter':
-        return CompoundFilter([self, other], coupling_policy=FilterCouplingPolicy.OR)
+        return CompoundFilter([self, other], logic_gate=LogicGate.OR)
 
     def __ror__(self, other) -> 'CompoundFilter':
-        return CompoundFilter([other, self], coupling_policy=FilterCouplingPolicy.OR)
+        return CompoundFilter([other, self], logic_gate=LogicGate.OR)
 
     def __xor__(self, other) -> 'CompoundFilter':
-        return CompoundFilter([self, other], coupling_policy=FilterCouplingPolicy.XOR)
+        return CompoundFilter([self, other], logic_gate=LogicGate.XOR)
 
     def __rxor__(self, other) -> 'CompoundFilter':
-        return CompoundFilter([other, self], coupling_policy=FilterCouplingPolicy.XOR)
+        return CompoundFilter([other, self], logic_gate=LogicGate.XOR)
 
     def xnor(self, other) -> 'CompoundFilter':
         """
         Coupling with XNOR logic
         """
-        return CompoundFilter([self, other], coupling_policy=FilterCouplingPolicy.XNOR)
+        return CompoundFilter([self, other], logic_gate=LogicGate.XNOR)
 
     def nand(self, other) -> 'CompoundFilter':
         """
         Coupling with NAND logic
         """
-        return CompoundFilter([self, other], coupling_policy=FilterCouplingPolicy.NAND)
+        return CompoundFilter([self, other], logic_gate=LogicGate.NAND)
 
     def nor(self, other) -> 'CompoundFilter':
         """
         Coupling with NOR logic
         """
-        return CompoundFilter([self, other], coupling_policy=FilterCouplingPolicy.NOR)
+        return CompoundFilter([self, other], logic_gate=LogicGate.NOR)
 
 
 class CompoundFilter(UserList, Compounder):
@@ -61,13 +61,13 @@ class CompoundFilter(UserList, Compounder):
         self,
         filters: List['Filter | CompoundFilter'],
         *,
-        coupling_policy: FilterCouplingPolicy = FilterCouplingPolicy.AND,
+        logic_gate: LogicGate = LogicGate.AND,
     ):
         UserList.__init__(self, filters)
-        self.coupling_policy = coupling_policy or FilterCouplingPolicy.AND
+        self.logic_gate = logic_gate or LogicGate.AND
 
     def apply(self, value: Any):
         """
         Apply compound filter
         """
-        return apply_filters(value, self, coupling_policy=self.coupling_policy)  # pylint: disable=protected-access
+        return apply_filters(value, self, logic_gate=self.logic_gate)

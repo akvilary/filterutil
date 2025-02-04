@@ -44,7 +44,7 @@ def test_func():
     assert my_filter.apply(1):
 ```
 
-### Coupling filters with AND policy
+### Coupling filters with AND logic gate
 ```python
 from filterutil import Filter
 
@@ -61,7 +61,7 @@ def test_func():
     assert not compound_filter.apply(2)
 ```
 
-### Coupling filters with OR policy
+### Coupling filters with OR logic gate
 ```python
 from filterutil import Filter
 
@@ -76,7 +76,8 @@ def test_func():
     assert compound_filter.apply(2)
 ```
 
-### Coupling filters with XOR policy
+### Coupling filters with XOR logic gate
+True if exactly one input is True.
 ```python
 from filterutil import Filter
 
@@ -92,7 +93,23 @@ def test_func():
     assert not compound_filter.apply(2)
 ```
 
-### Coupling filters with NOR policy
+### Coupling filters with XNOR logic gate
+True if both inputs are the same.
+```python
+from filterutil import Filter
+
+
+def test_func():
+    a = Filter(lambda x: x == 2)
+    b = Filter(lambda x: isintance(x, str))
+    compound_filter = a.xnor(b)
+
+    # assert True
+    assert compound_filter.apply(1)
+```
+
+### Coupling filters with NOR logic gate
+True only if all inputs are False.
 ```python
 from filterutil import Filter
 
@@ -106,7 +123,8 @@ def test_func():
     assert compound_filter.apply(1)
 ```
 
-### Coupling filters with NAND policy
+### Coupling filters with NAND logic gate
+False only if all inputs are True.
 ```python
 from filterutil import Filter
 
@@ -118,20 +136,6 @@ def test_func():
 
     # assert False
     assert not compound_filter.apply(1)
-```
-
-### Coupling filters with XNOR policy
-```python
-from filterutil import Filter
-
-
-def test_func():
-    a = Filter(lambda x: x == 2)
-    b = Filter(lambda x: isintance(x, str))
-    compound_filter = a.xnor(b)
-
-    # assert True
-    assert compound_filter.apply(1)
 ```
 
 ### Infinite nesting
@@ -158,9 +162,18 @@ def test_func():
     assert compound_filter.apply(2)
 ```
 
-### Collection of filters with same policy
+### Collection of filters with same logic gate
 ```python
-from filterutil import Filter, Filters, OrFilters, XorFilters, FilterCouplingPolicy
+from filterutil import (
+    Filter,
+    Filters,
+    OrFilters,
+    XorFilters,
+    XnorFilters,
+    NandFilters,
+    NorFilters,
+    LogicGate,
+)
 
 
 def test_func():
@@ -183,7 +196,7 @@ def test_func():
     or_filters = OrFilters()
     
     #same as 
-    or_filters = Filters(FilterCouplingPolicy.OR)
+    or_filters = Filters(LogicGate.OR)
     # ---
 
     or_filters['a'] = Filter(lambda x: isinstance(x, int))
@@ -196,7 +209,7 @@ def test_func():
     xor_filters = XorFilters()
 
     #same as 
-    xor_filters = Filters(FilterCouplingPolicy.XOR)
+    xor_filters = Filters(LogicGate.XOR)
     # ---
 
     xor_filters['a'] = Filter(lambda x: isinstance(x, bool))
@@ -204,6 +217,28 @@ def test_func():
 
     # assert True
     assert xor_filters.apply(False)
+
+    # another logic collections
+    xnor_filters = XnorFilters()
+    nor_filters = NorFilters()
+    nand_filters = NandFilters()
+```
+
+### Supported logic gates
+```python
+from enum import StrEnum
+
+
+class LogicGate(StrEnum):
+    """
+    Enum of logic gate
+    """
+    AND = 'and'
+    OR = 'or'
+    XOR = 'xor'
+    XNOR = 'xnor'
+    NAND = 'nand'
+    NOR = 'nor'
 ```
 
 ### It is possible to select certain filters of collection
@@ -229,9 +264,9 @@ def test_func():
     assert not or_filters.apply(2, filter_names=['a', 'c'])
 ```
 
-### Apply another coupling policy for the collection dinamically
+### Apply another logic gate for the collection dinamically
 ```python
-from filterutil import Filter, Filters, OrFilters, FilterCouplingPolicy
+from filterutil import Filter, Filters, OrFilters, LogicGate
 
 
 def test_func():
@@ -242,7 +277,7 @@ def test_func():
     assert not and_filters.apply(2)
     assert and_filters.apply_or(2)
     # or
-    assert and_filters.apply(2, coupling_policy=FilterCouplingPolicy.OR)
+    assert and_filters.apply(2, logic_gate=LogicGate.OR)
 
 
     or_filters = OrFilters(
@@ -256,17 +291,17 @@ def test_func():
 
 ### Infinite nesting of collections
 ```python
-from filterutil import Filter, Filters, OrFilters, XorFilters, FilterCouplingPolicy
+from filterutil import Filter, Filters, OrFilters, XorFilters, LogicGate
 
 
 def test_func():
     and_filters = Filters(
-        FilterCouplingPolicy.AND,
+        LogicGate.AND,
         a=Filter(lambda x: isinstance(x, int)),
         b=Filter(lambda x: isinstance(x, str)),
     )
     xor_filters = Filters(
-        FilterCouplingPolicy.XOR,
+        LogicGate.XOR,
         a=Filter(lambda x: x == 1),
         b=Filter(lambda x: isintance(x, int)),
     )

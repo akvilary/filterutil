@@ -92,6 +92,48 @@ def test_func():
     assert not compound_filter.apply(2)
 ```
 
+### Coupling filters with NOR policy
+```python
+from filterutil import Filter
+
+
+def test_func():
+    a = Filter(lambda x: x == 2)
+    b = Filter(lambda x: isintance(x, str))
+    compound_filter = a.nor(b)
+
+    # assert True
+    assert compound_filter.apply(1)
+```
+
+### Coupling filters with NAND policy
+```python
+from filterutil import Filter
+
+
+def test_func():
+    a = Filter(lambda x: x == 1)
+    b = Filter(lambda x: isintance(x, int))
+    compound_filter = a.nand(b)
+
+    # assert False
+    assert not compound_filter.apply(1)
+```
+
+### Coupling filters with XNOR policy
+```python
+from filterutil import Filter
+
+
+def test_func():
+    a = Filter(lambda x: x == 2)
+    b = Filter(lambda x: isintance(x, str))
+    compound_filter = a.xnor(b)
+
+    # assert True
+    assert compound_filter.apply(1)
+```
+
 ### Infinite nesting
 ```python
 from filterutil import Filter

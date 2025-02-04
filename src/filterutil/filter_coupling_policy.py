@@ -13,3 +13,6 @@ class FilterCouplingPolicy(StrEnum):
     AND = 'and'
     OR = 'or'
     XOR = 'xor'
+    XNOR = 'xnor'
+    NAND = 'nand'
+    NOR = 'nor'

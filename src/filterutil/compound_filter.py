@@ -33,6 +33,24 @@ class Compounder:
     def __rxor__(self, other) -> 'CompoundFilter':
         return CompoundFilter([other, self], coupling_policy=FilterCouplingPolicy.XOR)
 
+    def xnor(self, other) -> 'CompoundFilter':
+        """
+        Coupling with XNOR logic
+        """
+        return CompoundFilter([self, other], coupling_policy=FilterCouplingPolicy.XNOR)
+
+    def nand(self, other) -> 'CompoundFilter':
+        """
+        Coupling with NAND logic
+        """
+        return CompoundFilter([self, other], coupling_policy=FilterCouplingPolicy.NAND)
+
+    def nor(self, other) -> 'CompoundFilter':
+        """
+        Coupling with NOR logic
+        """
+        return CompoundFilter([self, other], coupling_policy=FilterCouplingPolicy.NOR)
+
 
 class CompoundFilter(UserList, Compounder):
     """
